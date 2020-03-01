@@ -1,2 +1,1 @@
-# SDI
-Software design and implementation 
+# Qt-CNN-labeling
