@@ -15,9 +15,7 @@ Model::Model(Control *cont)
     imageNameDatesAsc = {};
     imageNameDatesDec = {};
     images = {};
-    classifierNames = {};
-
-
+    classifierNames = {}
 
 }
 
