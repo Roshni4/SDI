@@ -1,5 +1,5 @@
 #include "model.h"
-#include "image.h"
+#include "mage.h"
 
 #include <QFile>
 #include <QString>
