@@ -15,7 +15,7 @@ Model::Model(Control *cont)
     imageNameDatesAsc = {};
     imageNameDatesDec = {};
     images = {};
-    classifierNames = {};
+    classifierNames = {}
 }
 
 QMap<std::string, QPen> Model::requestPens()
