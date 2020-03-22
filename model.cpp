@@ -1,5 +1,5 @@
 #include "model.h"
-#include "mage.h"
+#include "image.h"
 
 #include <QFile>
 #include <QString>
@@ -12,7 +12,7 @@ Model::Model(Control *cont)
 {
     control = cont;
     imageNames = {};
-    imageNameDatesAsc = {};
+    imageNameDatsAsc = {};
     imageNameDatesDec = {};
     images = {};
     classifierNames = {};
