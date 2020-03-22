@@ -16,7 +16,6 @@ Model::Model(Control *cont)
     imageNameDatesDec = {};
     images = {};
     classifierNames = {}
-
 }
 
 QMap<std::string, QPen> Model::requestPens()
