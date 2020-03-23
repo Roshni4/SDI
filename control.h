@@ -73,6 +73,7 @@ public:
 
 
     int requestNumberOfShapes();
+    void requestClassifierNames();
 
     QMap<std::string,QPen> requestPens();
 

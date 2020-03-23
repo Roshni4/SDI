@@ -29,7 +29,12 @@ void Control::savingToFile()
 
 int Control::requestNumberOfShapes()
 {
-     return model->requestNumberOfShapes(selectedImageName);
+    return model->requestNumberOfShapes(selectedImageName);
+}
+
+void Control::requestClassifierNames()
+{
+    return model->requestClassifierNames()
 }
 
 QMap<std::string, QPen> Control::requestPens()

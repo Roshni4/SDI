@@ -12,7 +12,7 @@ Model::Model(Control *cont)
 {
     control = cont;
     imageNames = {};
-    imageNameDatsAsc = {};
+    imageNameDatesAsc = {};
     imageNameDatesDec = {};
     images = {};
     classifierNames = {};
