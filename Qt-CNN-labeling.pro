@@ -15,13 +15,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-isEmpty(BOOST_INCLUDE_DIR): BOOST_INCLUDE_DIR=$$(BOOST_INCLUDE_DIR)
-# set by Qt Creator wizard
-isEmpty(BOOST_INCLUDE_DIR): BOOST_INCLUDE_DIR="C:/Users/Roshni/Documents/boost_1_72_0"
-!isEmpty(BOOST_INCLUDE_DIR): INCLUDEPATH *= $${BOOST_INCLUDE_DIR}
-
-isEmpty(BOOST_INCLUDE_DIR):
-    message("BOOST_INCLUDE_DIR is not set, assuming Boost can be found automatically in your system")
 
 SOURCES += \
     control.cpp \
@@ -30,7 +23,6 @@ SOURCES += \
     point.cpp \
     polygonitem.cpp \
     savetimer.cpp \
-    testing.cpp\
     view.cpp
 
 HEADERS += \
