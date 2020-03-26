@@ -12,7 +12,7 @@ public:
 
 private slots:
    // void test_case1();
-   // void test_case2();
+    //void test_case2();
     void test_case3();
 
 };
@@ -89,7 +89,7 @@ void sortAscDes::test_case2()//Sorting for descending classifier names
     //QCOMPARE(returnList,list2);
     QCOMPARE(returnList,list3);
 }*/
-void sortAscDes::test_case3() //Sorting for ascending classifier names
+void sortAscDes::test_case3() //Sorting for ascending image data names
 {
     bool swapped = false;
     std::vector<std::string> names = {"lava_abstract","ark-survival-evolved","snakegame","dragon_eye","toothless_night_fury_dragon_5k"};
@@ -116,9 +116,9 @@ void sortAscDes::test_case3() //Sorting for ascending classifier names
 
 
     QStringList list5 = {"ark-survival-evolved","dragon_eye","lava_abstract","snakegame","toothless_night_fury_dragon_5k"};
-    //QStringList list6 = {"dragon_eye","toothless_night_fury_dragon_5k","lava_abstract","ark-survival-evolved","snakegame"};
+    QStringList list6 = {"dragon_eye","toothless_night_fury_dragon_5k","lava_abstract","ark-survival-evolved","snakegame"};
     QVERIFY(true);
-    QCOMPARE(returnList,list5);
+    QCOMPARE(returnList,list6);
 }
 
 QTEST_APPLESS_MAIN(sortAscDes)
