@@ -20,9 +20,9 @@ isEmpty(BOOST_INCLUDE_DIR): BOOST_INCLUDE_DIR=$$(BOOST_INCLUDE_DIR)
 isEmpty(BOOST_INCLUDE_DIR): BOOST_INCLUDE_DIR="C:/Users/Roshni/Documents/boost_1_72_0"
 !isEmpty(BOOST_INCLUDE_DIR): INCLUDEPATH *= $${BOOST_INCLUDE_DIR}
 
-isEmpty(BOOST_INCLUDE_DIR): {
+isEmpty(BOOST_INCLUDE_DIR):
     message("BOOST_INCLUDE_DIR is not set, assuming Boost can be found automatically in your system")
-}
+
 SOURCES += \
     control.cpp \
     image.cpp \
@@ -51,3 +51,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES +=
+
