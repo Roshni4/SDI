@@ -22,19 +22,10 @@ void Control::setSidesToDraw(QString shape) {
     sidesToDraw = shape.at(0).digitValue();
 }
 
-void Control::savingToFile()
-{
-
-}
 
 int Control::requestNumberOfShapes()
 {
-    return model->requestNumberOfShapes(selectedImageName);
-}
-
-void Control::requestClassifierNames()
-{
-    return model->requestClassifierNames()
+     return model->requestNumberOfShapes(selectedImageName);
 }
 
 QMap<std::string, QPen> Control::requestPens()

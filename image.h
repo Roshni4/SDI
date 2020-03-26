@@ -11,12 +11,13 @@
 #include <polygonitem.h>
 
 
+
 class Image : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 
     QPointF mousePos;
-    std::vector<PolygonItem * > shapes; //holds the address of all the shapes, if you want points loop through this vector and call qpolygon of each shape, returns the qpolygon returns a vector of qpoints gives x y coordiantes
+    std::vector<PolygonItem * > shapes;
     std::vector<QGraphicsLineItem * > lines;
     std::vector<QGraphicsEllipseItem * > points;
     Model *model;

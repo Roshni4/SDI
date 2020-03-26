@@ -68,12 +68,10 @@ public:
     void setMode2(std::string m) {mode2 = m;}
     void setMode3(std::string m) {mode3 = m;}
     void setSidesToDraw(QString shape);
-    void savingToFile();
-    int requestPoints();
+
 
 
     int requestNumberOfShapes();
-    void requestClassifierNames();
 
     QMap<std::string,QPen> requestPens();
 

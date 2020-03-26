@@ -16,6 +16,7 @@ Model::Model(Control *cont)
     imageNameDatesDec = {};
     images = {};
     classifierNames = {};
+
 }
 
 QMap<std::string, QPen> Model::requestPens()
@@ -65,14 +66,7 @@ void Model::requestAddDrawnShape(std::string imageName)
 {
     images[imageName]->addDrawnShape();
 
-    /* std::vector<PolygonItem>;
-     images[imageName]->getshapes();
-for (shapes)
-   vector<QPoint> points = shapes [i].polygon();pointDrawn()
-        x= points[0].x();
- x= points[0].x();*/
 }
-
 void Model::requestAssignClassifierToSelectedShapes(std::string imageName, QString c, int lineIndex)
 {
     images[imageName]->assignClassifierToSelectedShapes(c, lineIndex);
