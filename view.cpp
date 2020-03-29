@@ -23,14 +23,10 @@ View::View(Control *cont, QWidget *parent): QMainWindow(parent), ui(new Ui::View
     image = new QGraphicsPixmapItem();
     ui->graphicsView->setScene(scene);
 
-    ui->copyPasteButton->setStyleSheet("background-color:white;\nborder:1px solid black;");
-
     ui->shapeDrawButton->setStyleSheet("background-color:white;\nborder:1px solid black;");
     ui->saveButton->setStyleSheet("background-color:white;\nborder:1px solid black;");
     ui->shapeAssignButton->setStyleSheet("background-color:white;\nborder:1px solid black;");
     ui->toggleClassifierButton->setStyleSheet("background-color:white;\nborder:1px solid black;");
-
-
 
     QPen pointPen(Qt::red);
     pointPen.setWidth(10);
@@ -50,7 +46,6 @@ View::View(Control *cont, QWidget *parent): QMainWindow(parent), ui(new Ui::View
 void View::renderList1()
 {
     ui->imageNamesList->clear();
-    ui->classifierList->clear();
 
     QStringList imageNames = control->requestImageNames();
     foreach (QString name, imageNames) {
@@ -60,6 +55,8 @@ void View::renderList1()
 
 void View::renderList2()
 {
+     ui->classifierList->clear();
+
     QStringList classifierNames = control->requestClassifierNames();
     foreach (QString name, classifierNames)
     {
@@ -75,6 +72,7 @@ void View::on_selectFolderButton_clicked()
     QString path = control->requestFolderPath();
     ui->folderPathLabel->setText(path);
 }
+
 void View::on_selectFileButton_clicked()
 {
     QString path = control->requestFilePath();
@@ -82,49 +80,54 @@ void View::on_selectFileButton_clicked()
 }
                                         //! When sortButton is clicked it retrieves imageComboBox current item..
 void View::on_sortButton_clicked(){     //! ..and chooses the sorting algorithm based on that
-    ui->imageNamesList->clear();
-    if(ui->ImageComboBox->currentText() =="Name (Asc)"){
-        QStringList imageNames = control->retrieveListDataAscending(1);  //! 1 is passed as parameter meaning...
-        foreach (QString name, imageNames) {     //! ..The data sorted using the ascending algorithm is image names
-            ui->imageNamesList->addItem(name);
-        }
-     }
+    if(ui->imageNamesList->count() != 0) {
+           ui->imageNamesList->clear();
+           if(ui->ImageComboBox->currentText() =="Name (Asc)"){
+               QStringList imageNames = control->retrieveListDataAscending(1);  //! 1 is passed as parameter meaning...
+               foreach (QString name, imageNames) {     //! ..The data sorted using the ascending algorithm is image names
+                   ui->imageNamesList->addItem(name);
+               }
+            }
 
-     if(ui->ImageComboBox->currentText() =="Name (Des)"){
-        QStringList imageNames = control->retrieveListDataDescending(1);
-        foreach (QString name, imageNames) {
-            ui->imageNamesList->addItem(name);
+            if(ui->ImageComboBox->currentText() =="Name (Des)"){
+               QStringList imageNames = control->retrieveListDataDescending(1);
+               foreach (QString name, imageNames) {
+                   ui->imageNamesList->addItem(name);
+               }
+           }
+            if(ui->ImageComboBox->currentText() =="Date (Asc)"){              //! Sorting images by their dates
+               QStringList imageNames = control->requestSortedDateAscending();
+               foreach (QString name, imageNames) {
+                   ui->imageNamesList->addItem(name);
+               }
+           }
+            if(ui->ImageComboBox->currentText() =="Date (Des)"){
+               QStringList imageNames = control->requestSortedDateDescending();
+               foreach (QString name, imageNames) {
+                   ui->imageNamesList->addItem(name);
+               }
+           }
+
         }
-    }
-     if(ui->ImageComboBox->currentText() =="Date (Asc)"){              //! Sorting images by their dates
-        QStringList imageNames = control->requestSortedDateAscending();
-        foreach (QString name, imageNames) {
-            ui->imageNamesList->addItem(name);
-        }
-    }
-     if(ui->ImageComboBox->currentText() =="Date (Des)"){
-        QStringList imageNames = control->requestSortedDateDescending();
-        foreach (QString name, imageNames) {
-            ui->imageNamesList->addItem(name);
-        }
-    }
 }
                                         //! When sortButton3 is clicked it retrieves classComboBox current item..
 void View::on_sortButton2_clicked(){   //! ..and chooses the sorting algorithm based on that
-    ui->classifierList->clear();
-    if(ui->classComboBox->currentText()=="Name (Asc)"){
-        QStringList classifierNames = control->retrieveListDataAscending(2); //! 2 is passed as parameter meaning...
-        foreach (QString name, classifierNames) {  //! ..the data sorted using the ascending algorithm is classifier names
-            ui->classifierList->addItem(name);
+    if(ui->classifierList->count() != 0) {
+        ui->classifierList->clear();
+        if(ui->classComboBox->currentText()=="Name (Asc)"){
+            QStringList classifierNames = control->retrieveListDataAscending(2); //! 2 is passed as parameter meaning...
+            foreach (QString name, classifierNames) {  //! ..the data sorted using the ascending algorithm is classifier names
+                ui->classifierList->addItem(name);
+            }
         }
-    }
+        if(ui->classComboBox->currentText()=="Name (Des)"){
+            QStringList classifierNames = control->retrieveListDataDescending(2);
+            foreach (QString name, classifierNames) {
+                ui->classifierList->addItem(name);
+             }
+        }
+   }
 
-    if(ui->classComboBox->currentText()=="Name (Des)"){
-        QStringList classifierNames = control->retrieveListDataDescending(2);
-        foreach (QString name, classifierNames) {
-            ui->classifierList->addItem(name);
-        }
-    }
 }
 
 
@@ -165,7 +168,6 @@ void View::on_shapeDrawButton_clicked()   //! ..so this function validates this 
         if(control->getMode2()=="copy")
         {                               //! When draw mode is deselected, if mode2 (copyPaste) is active it's also deselected
             control->setMode2("");
-            ui->copyPasteButton->setStyleSheet("background-color:white;\nborder:1px solid black;");
         }
         control->setMode("");
         ui->shapeDrawButton->setStyleSheet("background-color:white;\nborder:1px solid black;");
@@ -178,26 +180,6 @@ void View::on_shapeDrawButton_clicked()   //! ..so this function validates this 
     }
 
 }
-                              //! Copypaste function sets mode2 to copy so the current shape being drawn is copied
-void View::on_copyPasteButton_clicked()
-{
-    if (control->getMode2()=="copy"){
-        control->setMode2("");
-        ui->copyPasteButton->setStyleSheet("background-color:white;\nborder:1px solid black;");
-    }
-    else
-    {
-        if(control->getMode()=="draw")
-        {
-            control->setMode2("copy");
-            ui->copyPasteButton->setStyleSheet("background-color:#A3C1DA;\nborder:1px solid black;");
-        }
-
-
-    }
-
-}
-
 
 void View::on_shapesList_currentItemChanged(QListWidgetItem *current)
 {
@@ -230,13 +212,15 @@ void View::on_saveButton_clicked()
               return;
           }
           QTextStream out(&file);
-          QStringList imageNames = control->requestImageNames();
+          /*QStringList imageNames = control->requestImageNames();
           foreach (QString imageSelected, imageNames) {
             out<< imageSelected<< endl;}
+Returns all the shapes names in the dataset
+*/
           
          
           int numShapes = control->requestNumberOfShapes();
-          out<<numShapes<<endl;
+          out<<"The Number Of Shapes On The Image "<<numShapes<<endl;
 }
 }
 
@@ -247,8 +231,6 @@ void View::on_saveButton_clicked()
             QPixmap pixMap = this->ui->graphicsView->grab();
             pixMap.save(fileName);
         }*/
-
-
 
 void View::on_addClassButton_clicked(){
     ui->classifierList->blockSignals(true);
