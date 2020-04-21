@@ -22,13 +22,16 @@ class Model
     std::vector<std::string> imageNames;
     std::map<std::string, Image * > images;
     std::vector<std::string> classifierNames;
+    std::vector<std::string> imagesWithAnnotationsSaved;
     std::vector<std::string> imageNameDatesAsc;
     std::vector<std::string> imageNameDatesDec;
+
 public:
     Model(Control *cont = nullptr);
 
     std::vector<std::string> getImageNames() {return imageNames;}
     std::vector<std::string> getClassifierNames() {return classifierNames;}
+    int getClassifierIndex(std::string classifierName);
     std::vector<std::string> getImageNameDatesAsc() {return imageNameDatesAsc;}
     std::vector<std::string> getImageNameDatesDec() {return imageNameDatesDec;}
 
@@ -46,7 +49,11 @@ public:
     std::string loadClassifers(std::string filePath);
 
     void loadImage(QString imagePath, const QString imageName);
-    QPixmap loadImage(const QString imagePath);
+    QPixmap loadImage(const QString imagePath);    
+    void loadImageData(std::string filePath, QString imageName);
+
+    void save(std::string filePath);
+    void writeImagedata(QTextStream *write, std::string name);
 
     void pointDrawn() {control->pointDrawn();}
 

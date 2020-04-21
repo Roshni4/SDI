@@ -20,20 +20,22 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     control.cpp \
     image.cpp \
+    linkedlist.cpp \
     model.cpp \
     point.cpp \
     polygonitem.cpp \
-    savetimer.cpp \
+    threads.cpp \
     view.cpp
 
 
 HEADERS += \
     control.h \
     image.h\
+    linkedlist.h \
     model.h \
     point.h \
     polygonitem.h\
-    savetimer.h \
+    threads.h \
     view.h
 
 FORMS += \

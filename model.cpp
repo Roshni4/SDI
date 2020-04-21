@@ -1,5 +1,6 @@
 #include "model.h"
 #include "image.h"
+#include <QtDebug>
 
 #include <QFile>
 #include <QString>
@@ -17,6 +18,16 @@ Model::Model(Control *cont)
     images = {};
     classifierNames = {};
 
+}
+
+int Model::getClassifierIndex(std::string classifierName)
+{
+    for(unsigned i=0; i<classifierNames.size(); i++)
+    {
+        if(classifierName == classifierNames[i])
+            return i;
+    }
+    return -1;
 }
 
 QMap<std::string, QPen> Model::requestPens()
@@ -98,9 +109,7 @@ std::string Model::loadClassifers(std::string filePath)
     QFile file(qFilePath);
 
     if (!file.open(QFile::ReadOnly | QFile::Text))
-    {
-
-    }
+    {}
     else
     {
         classifierNames = {};
@@ -116,15 +125,85 @@ std::string Model::loadClassifers(std::string filePath)
     return filePath;
 }
 
-
-
-
 void Model::loadImage(QString imagePath, const QString imageName)
 {
     Image *newImage;
     newImage = new Image(imagePath, this);
     std::string index = imageName.toStdString();
     images[index] = newImage;
+    loadImageData(control->getAnnotationFilePath(),imageName);
+}
+
+void Model::loadImageData(std::string filePath, QString imageName)
+{
+    QString qFilePath = QString::fromStdString(filePath);
+    QFile file(qFilePath);
+
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        return;
+    }
+    else
+    {
+        QTextStream read(&file);
+        while (!read.atEnd())
+        {
+            QString line = read.readLine();
+
+            if (line == "{")
+            {
+                QString line = read.readLine();
+                if (line == imageName)
+                {
+                    images[imageName.toStdString()]->loadImageData(&read);
+                    break;
+                }
+            }
+        }
+    }
+}
+
+void Model::save(std::string filePath)
+{
+    qDebug("saved");
+    QString qFilePath = QString::fromStdString(filePath);
+    QFile file(qFilePath);
+
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+        return;
+
+
+    QTextStream write(&file);
+
+    std::vector<std::string> imagesToBeSaved = {};
+    unsigned numberOfImages = imageNames.size();
+    for(unsigned i=0; i < numberOfImages; i++)
+    {
+        if (images.count(imageNames[i]))
+        {
+            if(images[imageNames[i]]->getShapes().size() != 0)
+            {
+                imagesToBeSaved.push_back(imageNames[i]);
+            }
+        }
+    }
+
+
+    write << imagesToBeSaved.size() << "\n";
+    unsigned numberOfImagesToSave = imagesToBeSaved.size();
+    for(unsigned i=0; i < numberOfImagesToSave; i++)
+    {
+        writeImagedata(&write, imagesToBeSaved[i]);
+    }
+}
+
+void Model::writeImagedata(QTextStream *write, std::string name)
+{
+    *write << "{\n" ;
+
+    (images[name])->writeImageData(write, name);
+
+    *write << "}\n\n" ;
 }
 
 

@@ -17,7 +17,7 @@ class Image : public QObject, public QGraphicsPixmapItem
     Q_OBJECT
 
     QPointF mousePos;
-    std::vector<PolygonItem * > shapes;
+    std::vector<PolygonItem * > shapes = {};
     std::vector<QGraphicsLineItem * > lines;
     std::vector<QGraphicsEllipseItem * > points;
     Model *model;
@@ -31,6 +31,7 @@ public:
     using QGraphicsPixmapItem::paint;
 
     std::vector<PolygonItem * > getShapes() {return shapes;}
+    bool anyShapes() {return !shapes.empty();}
     int getNumberOfShapes() {return shapes.size();}
 
     bool addPoint(QPointF mousePos, int polygonIndex = -1, PolygonItem *parentShape = nullptr);
@@ -45,6 +46,9 @@ public:
     void shrinkShape(PolygonItem *shapeToResize);
 
     void assignClassifierToSelectedShapes(QString c, int lineIndex);
+
+    void loadImageData(QTextStream *read);
+    void writeImageData(QTextStream *write, std::string name);
 
 
     std::vector<PolygonItem * > findSelectedShapes();

@@ -1,6 +1,7 @@
 #include "model.h"
 #include "view.h"
 #include "control.h"
+#include "threads.h"
 #include <string>
 
 #include <QtCore>
@@ -16,7 +17,12 @@ Control::Control() {
     sidesToDraw = 3;
     drawPointsDrawn = 0;
     drawSidesDrawn = 0;
-    selectedClassifier.second = -1;
+}
+
+void Control::setSelectedClassifier(QString c)
+{
+     selectedClassifier.first = c;
+     selectedClassifier.second = model->getClassifierIndex(c.toStdString());
 }
 void Control::setSidesToDraw(QString shape) {
     sidesToDraw = shape.at(0).digitValue();
@@ -64,6 +70,20 @@ QString Control::requestFilePath()
     model->loadClassifers(classifierFilePath);
     view->renderList2();
     return QStringFilePath;
+}
+
+QString Control::requestAnnotationPath()
+{
+    QString filter = "Annotations Files (*.annotations)";
+    QString QStringFilePath = QFileDialog::getOpenFileName(view, "Select your annotation file", "C://",filter);
+    annotationFilePath = QStringFilePath.toStdString();
+    //model->loadSavedAnnotation(annotationFilePath);
+    return QStringFilePath;
+}
+
+void Control::requestSave()
+{
+    model->save(annotationFilePath);
 }
 
 QGraphicsPixmapItem * Control::requestImage(const QString imageName)
@@ -225,6 +245,9 @@ int main(int argc, char *argv[])
     control.model = &model;
     View view(&control);
     control.view = &view;
+
+    Threads myThread;
+    myThread.start();
 
     view.setWindowTitle("CNN Image Labeling");
     view.show();

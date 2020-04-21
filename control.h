@@ -25,6 +25,7 @@ private:
     //! State variables for file paths.
     std::string folderPath; /**< string to hold the currently selected dataset folder path */
     std::string classifierFilePath; /**< string to hold the currently selected class file path */
+    std::string annotationFilePath; /**< string to hold the currently annotation file path */
     std::string selectedImageName;
     std::pair<QString,int> selectedClassifier;
     std::string mode;
@@ -56,6 +57,7 @@ public:
      */
     std::string getFolderPath() {return folderPath;}
     std::string getFilePath() {return classifierFilePath;}
+    std::string getAnnotationFilePath() {return annotationFilePath;}
     std::string getMode() {return mode;}
     std::string getMode2() {return mode2;}
     std::string getMode3() {return mode3;}
@@ -63,7 +65,7 @@ public:
     int getSidesToDraw() {return sidesToDraw;}
 
     void setSelectedImageName(std::string iN) {selectedImageName = iN;}
-    void setSelectedClassifier(QString c) {selectedClassifier.first = c;}
+    void setSelectedClassifier(QString c);
     void setMode(std::string m) {mode = m;}
     void setMode2(std::string m) {mode2 = m;}
     void setMode3(std::string m) {mode3 = m;}
@@ -113,6 +115,17 @@ public:
       \return File path as a QString.
     */
     QString requestFilePath();
+
+    //! A method taking no arguments and returning a QString.
+    /*!
+     Using QFileDialog the user is presented with the os's file
+     explorer only showing *.annotation files and is prompted to select
+     their annotation file. the path of the selected file is returned.
+      \return File path as a QString.
+    */
+    QString requestAnnotationPath();
+
+    void requestSave();
 
     //! A method taking 1 argument and returing a QPixmap.
     /*!
